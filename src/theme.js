@@ -15,6 +15,11 @@ const theme = {
     fontSize: {
         body: 14,
         subheading: 15,
-    }
+    },
+    font: {
+        main: 'Sans-serif',
+        android: 'Roboto',
+        ios: 'Arial',
+    },
 }
 module.exports = theme;
