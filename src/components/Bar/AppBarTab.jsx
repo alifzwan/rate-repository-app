@@ -8,12 +8,15 @@ const styles = StyleSheet.create({
     color: theme.colors.textPrimary,
     fontWeight: theme.fontWeight.bold,
     fontSize: theme.fontSize.subheading,
+  },
+  tab: {
+    marginRight: 20
   }
 })
 
 const AppBarTab = ( { tabName, to } ) => {
   return (
-    <Link to={to} component={Pressable}>
+    <Link to={to} component={Pressable} style={styles.tab}>
       <Text style={styles.text}>{tabName}</Text>
     </Link>
   )
