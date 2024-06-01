@@ -3,6 +3,7 @@ import React from 'react'
 import { useFormik } from 'formik' 
 import * as theme from '../../theme'
 import * as yup from 'yup'
+import useSignIn from '../../hooks/useSignIn'
 
 // Formik is a library that helps you with building forms in React and React Native. 
 // It helps with handling form state, validation, and error messages.
@@ -42,29 +43,49 @@ const styles = StyleSheet.create({
 })
 
 const SignIn = () => {
+  
+  //* initialValues - object that contains the initial values of the form fields
+  const initialValues = {
+    username: '',
+    password: ''
+  }
  
+  //* validationSchema - object that contains the validation rules for the form fields
   const validationSchema = yup.object().shape({ //
-    // string() - method that specifies that the value of the field should be a string
+    // username and password must be in string and is required
     username: yup.string().required('Username is required'), 
-
-    // required() - method that specifies that the field is required
     password: yup.string().required('Password is required') 
   })
 
+
+  //* useSignIn - custom hook that will return the signIn function and the result of the mutation
+  const [signIn] = useSignIn()
+
+
+  //* onSubmit - function that will be called with the values of the form when the form is submitted
+  const onSubmit = async (values) => {
+    const { username, password } = values
+    try{
+      const { data } = await signIn({ username, password })
+      console.log(data)
+    } catch(error){
+      console.log("Error:", error)
+    }
+  }
+
+
   const formik = useFormik({
     // initial values - object that contains the initial values of the form fields
-    initialValues: { 
-      username: '',
-      password: ''
-    },
+    initialValues,
+
     // onSubmit - function that will be called with the values of the form when the form is submitted
-    onSubmit: (values) => { 
-      console.log(values)
-    },
+    onSubmit,
+
      // validationSchema - object that contains the validation rules for the form fields
     validationSchema
   })
 
+  
  
   
   return (
@@ -75,8 +96,10 @@ const SignIn = () => {
         onChangeText={formik.handleChange('username')} // handleChange - function that will update the form state when the value of the input changes
         value={formik.values.username} // values - object that contains the current values of the form fields
       />
-      {formik.touched.username && formik.errors.username (
-        <Text style={styles.errorText}>{formik.errors.username}</Text> 
+      {formik.touched.username && formik.errors.username && (
+        <Text style={styles.errorText}>
+          {formik.errors.username}
+        </Text> 
       )}
 
 
@@ -88,8 +111,10 @@ const SignIn = () => {
         value={formik.values.password} // values - object that contains the current values of the form fields
       />
 
-      {formik.touched.password && formik.errors.password  (
-        <Text style={styles.errorText}>{formik.errors.password}</Text> 
+      {formik.touched.password && formik.errors.password && (
+        <Text style={styles.errorText}>
+          {formik.errors.password}
+        </Text> 
       )}
 
       <Pressable style={styles.button} onPress={formik.handleSubmit}>
