@@ -41,25 +41,27 @@ const styles = StyleSheet.create({
   
 })
 
-const SignIn = ( { onSubmit } ) => {
+const SignIn = () => {
+ 
+  const validationSchema = yup.object().shape({ //
+    // string() - method that specifies that the value of the field should be a string
+    username: yup.string().required('Username is required'), 
 
-  const validationSchema = yup.object().shape({ // validationSchema - object that contains the validation rules for the form fields
-    username: yup
-    .string()
-    .required('Username is required'), // string() - method that specifies that the value of the field should be a string
-    password: yup
-    .string()
-    .required('Password is required') // required() - method that specifies that the field is required
+    // required() - method that specifies that the field is required
+    password: yup.string().required('Password is required') 
   })
 
   const formik = useFormik({
-    initialValues: { // initial values - object that contains the initial values of the form fields
+    // initial values - object that contains the initial values of the form fields
+    initialValues: { 
       username: '',
       password: ''
     },
-    onSubmit: (values) => { // onSubmit - function that will be called with the values of the form when the form is submitted
-      onSubmit(values)
+    // onSubmit - function that will be called with the values of the form when the form is submitted
+    onSubmit: (values) => { 
+      console.log(values)
     },
+     // validationSchema - object that contains the validation rules for the form fields
     validationSchema
   })
 
@@ -73,9 +75,9 @@ const SignIn = ( { onSubmit } ) => {
         onChangeText={formik.handleChange('username')} // handleChange - function that will update the form state when the value of the input changes
         value={formik.values.username} // values - object that contains the current values of the form fields
       />
-      {formik.touched.username && formik.errors.username ? (
+      {formik.touched.username && formik.errors.username (
         <Text style={styles.errorText}>{formik.errors.username}</Text> 
-      ) : null}
+      )}
 
 
       <TextInput 
@@ -86,9 +88,9 @@ const SignIn = ( { onSubmit } ) => {
         value={formik.values.password} // values - object that contains the current values of the form fields
       />
 
-      {formik.touched.password && formik.errors.password ? (
+      {formik.touched.password && formik.errors.password  (
         <Text style={styles.errorText}>{formik.errors.password}</Text> 
-      ) : null}
+      )}
 
       <Pressable style={styles.button} onPress={formik.handleSubmit}>
         <Text style={styles.text}>Sign in</Text>
