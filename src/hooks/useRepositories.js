@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
 import { useQuery } from '@apollo/client'
-import { GET_REPOSITORIES } from '../graphql/queries'
+import { QUERIES_REPOSITORIES } from '../graphql/queries'
 
 
 const useRepositories = () => {
     const [repositories, setRepositories] = useState()
 
-    const { data, error, loading } = useQuery(GET_REPOSITORIES, {
+    const { data, error, loading } = useQuery(QUERIES_REPOSITORIES, {
         // This tells Apollo Client to first return the data from the cache and then fetch the data from the network. 
         // This way, the user gets a faster response and the UI is updated when the network request is completed.
         fetchPolicy: 'cache-and-network', 
